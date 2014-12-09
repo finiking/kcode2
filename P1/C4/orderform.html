@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>计算订单总金额</title>
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<form action="processorder.php" method="post">
+			<table border="0">
+				<tr style="background-color: #cccccc">
+					<td width="160">商品</td>
+					<td width="15">数量</td>
+				</tr>
+				<tr>
+					<td>轮胎</td>
+					<td align="center">
+					<input type="text" name="tireqty" size="3"
+					maxlength="3" />
+					</td>
+				</tr>
+				<tr>
+					<td>油</td>
+					<td align="center">
+					<input type="text" name="oilqty" size="3"
+					maxlength="3" />
+					</td>
+				</tr>
+				<tr>
+					<td>火花塞</td>
+					<td align="center">
+					<input type="text" name="sparkqty" size="3"
+					maxlength="3" />
+					</td>
+				</tr>
+				<tr>
+					<td>你怎么找到我们店的？</td>
+					<td>
+					<select name="find">
+						<option value = "a">我是普通客户</option>
+						<option value = "b">电视广告</option>
+						<option value = "c">互联网广告</option>
+						<option value = "d">口碑</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+					<input type="submit" value="提交订单" />
+					</td>
+				</tr>
+			</table>
+		</form>
+	</body>
+</html>

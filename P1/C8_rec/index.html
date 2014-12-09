@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>计算矩形的面积和周长</title>
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.pin.js"></script>
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+
+<style type="text/css">
+	h2{
+		color:#FF6600;
+		width:200px;
+		margin:30px auto;
+		
+	}
+	#fm{
+		width:500px;
+		height:200px;
+		margin:30px auto;
+		text-align:left;
+	}
+	input{
+		margin-top:15px;
+	}
+	#rd{
+		width:300px;
+		margin:auto 5px;
+	}
+	#a, #p, #q{
+		display: none;
+		height:53px;
+		margin-bottom: 10px;
+	}
+	
+</style>
+<script>
+	$(function(){
+		$("#smt").on("click",function(){
+			var w = $("#width").val();
+			var h = $("#height").val();
+			$.post("count.php", {width : w, height : h}, function(data){
+				$("#a").show().find("h4").text("这个矩形的面积是：" + data.area + " cm²");
+				$("#p").show().find("h4").text("这个矩形的周长是：" + data.per + " cm");
+				if(data.isq){
+					$("#q").show().find("h4").text("这个矩形是正方形");
+				} else {
+					$("#q").show().find("h4").text("这个矩形不是正方形");
+				}				
+			},"json");
+		});
+		$("#rst").on("click", function(){
+			$("#a").hide();
+			$("#p").hide();
+		});
+	});
+</script>
+</head>
+<body>
+	<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-4 column">
+		</div>
+		<div class="col-md-4 column">
+			<h3 class="text-center text-info">
+				请输入数据
+			</h3>
+			<form  id="frm" method="post">
+				<div class="row clearfix">
+					<div class="col-md-6 column">
+						<div class="form-group">
+							 <label>长(cm)</label>
+							 <input type="text" class="form-control" name="width" id="width" />
+						</div>
+					</div>
+					<div class="col-md-6 column">
+						<div class="form-group">
+							 <label>宽(cm)</label>
+							 <input type="text" class="form-control" name="height" id="height" />
+						</div>
+					</div>
+					<div class="col-md-12 column">
+						<button id="smt" type="button" class="btn btn-block btn-success">计算</button>
+						<button id="rst" type="reset" class="btn btn-block btn-warning">重置</button>
+						
+					</div>
+					<div class="col-md-12 column">
+						<p></p>
+							<div id="a" class="alert alert-success alert-dismissable">
+								<h4>
+								</h4> 
+							</div>
+							<div id="p" class="alert alert-success alert-dismissable">
+								<h4>
+								</h4> 
+							</div>				
+							<div id="q" class="alert alert-success alert-dismissable">
+								<h4>
+								</h4> 
+							</div>				
+					</div>
+					
+				</div>
+			</form>
+		</div>
+		<div class="col-md-2 column">
+		</div>
+		<div class="col-md-2 column">
+		</div>
+	</div>
+	
+</div>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>在线计算器</title>
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.pin.js"></script>
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+
+<style type="text/css">
+	h2{
+		color:#FF6600;
+		width:200px;
+		margin:30px auto;
+		
+	}
+	#fm{
+		width:500px;
+		height:200px;
+		margin:30px auto;
+		text-align:left;
+	}
+	input{
+		margin-top:15px;
+	}
+	#rd{
+		width:300px;
+		margin:auto 5px;
+	}
+	.btn{
+		margin-bottom: 15px;
+		font-weight: bold;
+		font-size: 16px;
+	}
+	#cal {
+		margin-top: 20px;
+		background-color: #E8E8E8;
+		-moz-border-radius: 15px;      
+	    -webkit-border-radius: 15px;   
+	    border-radius:15px;  
+	}
+	#dis{
+		background-color: #ffffff;
+	}
+	.column {
+		padding: 0 10px;
+	}
+</style>
+<script>
+	$(function(){
+		$('.btn-num').on("click",function(e){
+			var kv = $(e.target).val();
+			if($('#dis').val().indexOf('=')>0){
+				$('#dis').val('');
+			}
+			$('#dis').val($('#dis').val()+kv);
+		});
+		var num;
+		var ope=null;
+		$('.btn-ope').on("click",function(e){
+			if(ope!=null||$('#dis').val()==null || $('#dis').val() ==''){
+				return;
+			}
+			var kv = $(e.target).val();
+			if($('#dis').val().indexOf('=')>0){
+				var arr = $('#dis').val().split("=");
+				$('#dis').val(arr[1]);
+			}
+			switch(kv){
+				case "+":
+					ope = "+";
+					$('#dis').val($('#dis').val()+kv);
+					break;
+				case "-":
+					ope = "-";
+					$('#dis').val($('#dis').val()+kv);
+					break;
+				case "*":
+					ope = "*";
+					$('#dis').val($('#dis').val()+kv);
+					break;
+				case "/":
+					ope = "/";
+					$('#dis').val($('#dis').val()+kv);
+					break;
+			}
+		});
+		$('#ke').on("click",function(e){
+			num = $('#dis').val();
+			if(num=='' || ope == '' || ope==null){
+				return;
+			}
+			var arr = num.split(ope);
+			var n1 = arr[0];
+			var n2 = arr[1];
+			if(n2==""){
+				$('#dis').val($('#dis').val()+'0');
+			}
+			$.post("count.php", {n1 : n1, n2 : n2, ope : ope}, function(data){
+				$('#dis').val($('#dis').val()+"="+data);
+			});
+			ope = null;
+		});
+		
+		$("#rst").on("click", function(){
+			$("#dis").val('');
+		});
+	});
+</script>
+</head>
+<body>
+	<div class="container">
+	<div class="row clearfix">
+		<div class="col-xs-2 col-sm-4 column">
+		</div>
+		<div id="cal" class="col-xs-8 col-sm-4 column">
+			<h3 class="text-center text-info">
+				
+			</h3>
+			<form  id="frm" method="post">
+				<div class="row clearfix">
+					<div class="col-xs-12 col-sm-12 column">
+						<div class="col-xs-12 col-sm-12 column">
+							<div class="form-group">
+								 <label> </label>
+								 <input type="text" class="form-control" name="dis" id="dis"  readonly="readonly"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 column">
+						<div class="col-xs-3 col-ms-3 column">
+						<button id="k7" value="7" type="button" class="btn-num btn btn-block btn-default">7</button>
+						</div>
+						<div class="col-xs-3 col-ms-3 column">
+						<button id="k8" value="8" type="button" class="btn-num btn btn-block btn-default">8</button>
+						</div>
+						<div class="col-xs-3 col-ms-3 column">
+						<button id="k9" value="9" type="button" class="btn-num btn btn-block btn-default">9</button>
+						</div>
+						<div class="col-xs-3 col-ms-3 column">
+						<button id="kd" value="/" type="button" class="btn-ope btn btn-block btn-success">/</button>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 column">
+						<div class="col-xs-3 col-ms-3 column">
+						<button id="k4" value="4" type="button" class="btn-num btn btn-block btn-default">4</button>
+						</div>
+						<div class="col-xs-3 col-ms-3 column">
+						<button id="k5" value="5" type="button" class="btn-num btn btn-block btn-default">5</button>
+						</div>
+						<div class="col-xs-3 col-ms-3 column">
+						<button id="k6" value="6" type="button" class="btn-num btn btn-block btn-default">6</button>
+						</div>
+						<div class="col-xs-3 col-ms-3 column">
+						<button id="km" value="*" type="button" class="btn-ope btn btn-block btn-success">×</button>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 column">
+						<div class="col-xs-3 col-ms-3 column">
+						<button id="k1" value="1" type="button" class="btn-num btn btn-block btn-default">1</button>
+						</div>
+						<div class="col-xs-3 col-ms-3 column">
+						<button id="k2" value="2" type="button" class="btn-num btn btn-block btn-default">2</button>
+						</div>
+						<div class="col-xs-3 col-ms-3 column">
+						<button id="k3" value="3" type="button" class="btn-num btn btn-block btn-default">3</button>
+						</div>
+						<div class="col-xs-3 col-ms-3 column">
+						<button id="ks" value="-" type="button" class="btn-ope btn btn-block btn-success">-</button>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 column">
+						<div class="col-xs-3 col-ms-3 column">
+						<button id="k0" value="0" type="button" class="btn-num btn btn-block btn-default">0</button>
+						</div>
+						<div class="col-xs-3 col-ms-3 column">
+						<button id="kdt" value="." type="button" class="btn-num btn btn-block btn-default">.</button>
+						</div>
+						<div class="col-xs-3 col-ms-3 column">
+						<button id="ke" value="=" type="button" class="btn btn-block btn-success">=</button>
+						</div>
+						<div class="col-xs-3 col-ms-3 column">
+						<button id="ka" value="+" type="button" class="btn-ope btn btn-block btn-success">+</button>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 column">
+						<div class="col-xs-12 col-sm-12 column">
+						<button id="rst" type="button" class="btn btn-block btn-danger">A C</button>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 column">
+						
+						<label> </label>			
+					</div>
+					
+				</div>
+			</form>
+		</div>
+		<div class="col-xs-2 col-sm-4 column">
+		</div>
+		
+	</div>
+	
+</div>
+</body>
+</html>
